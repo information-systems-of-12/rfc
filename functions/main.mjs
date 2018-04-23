@@ -1,4 +1,4 @@
-import Container from './Container.mjs'
+import Handler from './Handler.mjs'
 import Element from './Element.mjs'
 import Select from './Select.mjs'
 import SelectDropdown from './SelectDropdown.mjs'
@@ -7,7 +7,7 @@ import StringInput from './StringInput.mjs'
 import Submit from './Submit.mjs'
 
 export {
-  Container,
+  Handler,
   Element,
   Select,
   SelectDropdown,

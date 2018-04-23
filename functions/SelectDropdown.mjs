@@ -69,6 +69,36 @@ export default class SelectDropdown extends Component {
   static getDerivedStateFromProps( nextProps, prevState ){
     return { usingOptionId: nextProps.usingOptionId }
   }
+  // static getDerivedStateFromProps( nextProps, prevState ){
+  //   if ( nextProps.multi === false ){
+  //     if ( ( nextProps.usingOptionId === undefined || nextProps.usingOptionId === false ) && ( prevState.usingOptionId === undefined || prevState.usingOptionId === false ) ){
+  //       return { usingOptionId: false }
+  
+  //     } else if ( nextProps.usingOptionId === false && ( prevState.usingOptionId !== false && prevState.usingOptionId !== undefined ) ){
+  //       return { usingOptionId: false }  
+  
+  //     } else if ( nextProps.usingOptionId && prevState.usingOptionId === false ){
+  //       return { usingOptionId: nextProps.usingOptionId }
+  
+  //     } else {
+  //       return { usingOptionId: nextProps.usingOptionId }
+  //     }
+  //   } else {
+  //     if ( ( nextProps.usingOptionsId === undefined || nextProps.usingOptionsId === false ) && ( prevState.usingOptionsId === undefined || prevState.usingOptionsId.length === 0 ) ){
+  //       return { usingOptionsId: [] }
+  
+  //     } else if ( nextProps.usingOptionsId.length === 0 && ( prevState.usingOptionsId.length > 0 || prevState.usingOptionsId !== undefined ) ){
+  //       return { usingOptionsId: [] }
+  
+  //     } else if ( nextProps.usingOptionsId.length > 0 && prevState.usingOptionsId.length === 0 ){
+  //       return { usingOptionsId: nextProps.usingOptionsId }
+  
+  //     } else {
+  //       return {}
+  //     }
+  //   }
+    
+  // }
 
 
   constructOptions( options, useValue ){

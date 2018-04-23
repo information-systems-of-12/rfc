@@ -4,7 +4,7 @@ const Component = React.default.Component
 
 import { useValueContext, setResetActionContext } from './contexts.mjs'
 
-export default class Container extends Component {
+export default class Handler extends Component {
   constructor( props ){
     try {
       super( props )
@@ -21,7 +21,7 @@ export default class Container extends Component {
 
   render(){
     return createElement( useValueContext.Provider, { value: this.useValue },
-      createElement( 'form', { 
+        createElement( this.props.component || 'form', {
           autoComplete: 'off', 
           onSubmit: event => {
             event.preventDefault()
@@ -36,6 +36,7 @@ export default class Container extends Component {
 
 
   async useValue( name, value ){
+    // debugger
     this.values[ name ] = value
     this.props.onChange( this.values, name, value )
   }
