@@ -28,10 +28,11 @@ export default class SelectDropdown extends Component {
             toggleOptionsPanel: this.toggleOptionsPanel,
             optionsPanelIsVisible: this.state.optionsPanelIsVisible
           } ),
-
-          createElement( this.props.components.UsePreviousOptionButton, { usePreviousOption: event => this.onClickUsePreviousOptionButton( event, useValue ) }, ),
-          createElement( this.props.components.UseNextOptionButton, { useNextOption: event => this.onClickUseNextOptionButton( event, useValue ) }, ),
-
+          
+          createElement( this.props.components.UseOptionButtonPanel, {},
+            createElement( this.props.components.UsePreviousOptionButton, { usePreviousOption: event => this.onClickUsePreviousOptionButton( event, useValue ) }, ),
+            createElement( this.props.components.UseNextOptionButton, { useNextOption: event => this.onClickUseNextOptionButton( event, useValue ) }, ),
+          ),
 
         this.state.optionsPanelIsVisible === true ? createElement( this.props.components.Panel, {},
           ...this.constructOptions( this.props.options, useValue )
