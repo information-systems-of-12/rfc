@@ -24,31 +24,49 @@ export default class StringInput extends Component {
 
 
   
-  static getDerivedStateFromProps( nextProps, prevState ){
-    // debugger
-    if ( ( nextProps.usingString === undefined || nextProps.usingOptionId === false ) && ( prevState.value === undefined || prevState.value === false ) ){
-      // debugger
-      return { value: '' }
+  // static getDerivedStateFromProps( nextProps, prevState ){
+  //   debugger
+  //   if ( ( nextProps.usingString === undefined || nextProps.usingOptionId === false ) && ( prevState.value === undefined || prevState.value === false ) ){
+  //     debugger
+  //     return { value: '' }
       
-    } else if ( nextProps.usingString === false && ( prevState.value !== false && prevState.value !== undefined ) ){
-      // debugger
-      return { value: '' }
+  //   } else if ( nextProps.usingString === false && ( prevState.value !== false && prevState.value !== undefined ) ){
+  //     debugger
+  //     return { value: '' }
 
-    } else if ( nextProps.usingString !== undefined && nextProps.usingString !== false && ( prevState.value === false || prevState.value === undefined || prevState.value === '' ) ){
-      // debugger
-      return { value: nextProps.usingString }
+  //   } else if ( nextProps.usingString !== undefined && nextProps.usingString !== false && ( prevState.value === false || prevState.value === undefined || prevState.value === '' ) ){
+  //     debugger
+  //     return { value: nextProps.usingString }
     
-    }  else if ( nextProps.usingString !== undefined && nextProps.usingString !== false && prevState.value !== false && prevState.value !== undefined && prevState.value !== '' ){
-      // debugger
-      return { value: nextProps.usingString }
+  //   }  else if ( nextProps.usingString !== undefined && nextProps.usingString !== false && prevState.value !== false && prevState.value !== undefined && prevState.value !== '' ){
+  //     debugger
+  //     return { value: nextProps.usingString }
+
+  //   } else {
+  //     debugger
+  //     return {}
+  //   }
+
+  // }
+
+
+  static getDerivedStateFromProps( nextProps, prevState ){
+    if ( nextProps.usingString !== undefined && prevState.value !== undefined && JSON.stringify( nextProps.usingString ) === prevState.value ){
+      return {}
 
     } else {
-      // debugger
-      return {}
+      return { value: typeof nextProps.usingString === 'string' ? nextProps.usingString : String( nextProps.usingString ) }
     }
-
   }
 
+
+  shouldComponentUpdate( nextProps, nextState ){
+    if ( nextState.value === this.state.value || JSON.stringify( nextState.value ) === this.state.value ){
+      return false
+    } else {
+      return true
+    }
+  }
 
 
   async useString( string, useValue ){
