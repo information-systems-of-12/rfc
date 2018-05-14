@@ -37,7 +37,7 @@ export default class Select extends Component {
 
     const checkIfIsUsing = this.checkIfIsUsing
 
-    return options && Array.isArray( options ) === true && options.length && options.length > 0 ? options.map( ( option, index ) => createElement( this.props.components.Option, {
+    return options && Array.isArray( options ) === true && options.length && options.length > 0 ? options.map( ( option, index ) => createElement( this.props.components.OptionContainer, {
       id: option.id,
       useOption: id => this.useOption( id, useValue ),
       value: option.value,
@@ -53,7 +53,6 @@ export default class Select extends Component {
     } else if ( this.props.multi === true ){
       const findResult = this.state.usingOptionsId.find( id => id === optionId )
       const r = this.state.usingOptionsId !== undefined && this.state.usingOptionsId.length > 0 && findResult !== undefined ? true : false
-      // debugger
       return r
     }
 

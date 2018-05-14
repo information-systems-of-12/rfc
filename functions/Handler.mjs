@@ -36,7 +36,6 @@ export default class Handler extends Component {
 
 
   async useValue( name, value ){
-    // debugger
     this.values[ name ] = value
     this.props.onChange( this.values, name, value )
   }

@@ -23,18 +23,18 @@ export default class SelectDropdown extends Component {
     return createElement( useValueContext.Consumer, {},
       useValue => createElement( this.props.components.Container, {},
 
-          createElement( this.props.components.Option, {
+          createElement( this.props.components.OptionContainer, {
             value: this.props.options.find( ( o, i ) => i === this.state.usingOptionId ).value,
             toggleOptionsPanel: this.toggleOptionsPanel,
             optionsPanelIsVisible: this.state.optionsPanelIsVisible
           } ),
           
-          createElement( this.props.components.UseOptionButtonPanel, {},
-            createElement( this.props.components.UsePreviousOptionButton, { usePreviousOption: event => this.onClickUsePreviousOptionButton( event, useValue ) }, ),
-            createElement( this.props.components.UseNextOptionButton, { useNextOption: event => this.onClickUseNextOptionButton( event, useValue ) }, ),
+          createElement( this.props.components.UseOptionButtonPanelContainer, {},
+            createElement( this.props.components.UsePreviousOptionButtonContainer, { usePreviousOption: event => this.onClickUsePreviousOptionButton( event, useValue ) }, ),
+            createElement( this.props.components.UseNextOptionButtonContainer, { useNextOption: event => this.onClickUseNextOptionButton( event, useValue ) }, ),
           ),
 
-        this.state.optionsPanelIsVisible === true ? createElement( this.props.components.Panel, {},
+        this.state.optionsPanelIsVisible === true ? createElement( this.props.components.PanelContainer, {},
           ...this.constructOptions( this.props.options, useValue )
         ) : null
         
@@ -103,7 +103,7 @@ export default class SelectDropdown extends Component {
 
 
   constructOptions( options, useValue ){
-    return options && Array.isArray( options ) === true && options.length && options.length > 0 ? options.map( ( option, index ) => createElement( this.props.components.PanelOption, {
+    return options && Array.isArray( options ) === true && options.length && options.length > 0 ? options.map( ( option, index ) => createElement( this.props.components.PanelOptionContainer, {
       id: option.id,
       useOption: id => this.useOption( id, useValue ),
       value: option.value,

@@ -4,14 +4,22 @@ const Component = React.default.Component
 import { useValueContext } from './contexts.mjs'
 
 const AT_SYMBOL = '@'
+const DOT_SYMBOL = '.'
 
 export default class Email extends Component {
   constructor( props ){
     try {
       super( props )
-      this.state = { value: '', value1: '', value2: '' }
+      this.state = { value: '', value1: '', value2: '', value3: '' }
       this.onChange1 = this.onChange1.bind( this )
       this.onChange2 = this.onChange2.bind( this )
+
+      this.onChange = this.onChange.bind( this )
+      this.onKeyDown = this.onKeyDown.bind( this )
+
+      this.EmailAddressBodyInput = null
+      this.EmailAddressDomainNameInput = null
+      this.EmailAddressDomainInput = null
 
     } catch ( error ) {
       console.error( error )
@@ -19,32 +27,104 @@ export default class Email extends Component {
   }
 
   render(){
-    const { Label, EmailAddressBodyInput, AtSymbolLabel, EmailAddressDomainNameInput } = this.props.components
 
     return createElement( useValueContext.Consumer, {},
  
-      useValue => [
-        createElement( Label, { key: 0, htmlFor: this.props.name } ),
-        createElement( EmailAddressBodyInput, { key: 1, id: this.props.name, type: 'text', onChange: event => this.onChange1( event, useValue ), autoComplete: 'email-1' } ),
-        createElement( AtSymbolLabel, { key: 2 } ),
-        createElement( EmailAddressBodyInput, {  key: 3, type: 'text', onChange: event => this.onChange2( event, useValue ), autoComplete: 'email-2' } ),
-      ]
+      useValue => createElement( this.props.components.Container, {},
+        
+        createElement( this.props.components.EmailAddressBodyInputContainer, { 
+          id: this.props.name,
+          type: 'text',
+          onChange: event => this.onChange( event, useValue, 1 ),
+          onKeyDown: event => this.onKeyDown( event, useValue, 1 ),
+          autoComplete: 'email-address-body',
+          reference: input => {
+            this.EmailAddressBodyInput = input
+          },
+          value: this.state.value1
+        } ),
+
+        createElement( this.props.components.AtSymbolContainer, {} ),
+
+        createElement( this.props.components.EmailAddressDomainNameInputContainer, {
+          type: 'text',
+          onChange: event => this.onChange( event, useValue, 2 ),
+          onKeyDown: event => this.onKeyDown( event, useValue, 2 ),
+          autoComplete: 'email-address-domain-name',
+          reference: input => {
+            this.EmailAddressDomainNameInput = input
+          },
+          value: this.state.value2
+        } ),
+
+        createElement( this.props.components.DotSymbolContainer, {} ),
+        createElement( this.props.components.EmailAddressDomainInputContainer, {
+          type: 'text',
+          onChange: event => this.onChange( event, useValue, 3 ),
+          onKeyDown: event => this.onKeyDown( event, useValue, 3 ),
+          autoComplete: 'email-address-domain',
+          reference: input => {
+            this.EmailAddressDomainInput = input
+          },
+          value: this.state.value3
+        } )
+
+      )
+
+    
     )
     
   }
 
-  onChange1( event, useValue ){
-    const value1 = event.target.value
-    const value = value1 + AT_SYMBOL + this.state.value2
-    this.setState( { value1, value } )
-    useValue( this.props.name, value === AT_SYMBOL ? '' : value )
+
+  async onChange( event, useValue, position ){
+
+    const inputValue = event.target.value
+
+    if ( position === 1 ){
+      const value = inputValue + AT_SYMBOL + this.state.value2 + DOT_SYMBOL + this.state.value3
+      await this.setStateWrapper( { value1: inputValue, value } )
+    } else if ( position === 2 ){
+      const value = this.state.value1 + AT_SYMBOL + inputValue + DOT_SYMBOL + this.state.value3
+      await this.setStateWrapper( { value2: inputValue, value } )
+    } else if ( position === 3 ){
+      const value = this.state.value1 + AT_SYMBOL + this.state.value2 + DOT_SYMBOL + inputValue
+      await this.setStateWrapper( { value3: inputValue, value } )
+    }
+
+    await useValue( this.props.name, this.state.value === AT_SYMBOL ? '' : this.state.value )
+
+
   }
 
-  onChange2( event, useValue ){
-    const value2 = event.target.value
-    const value = this.state.value1 + AT_SYMBOL + value2
-    this.setState( { value2, value } )
-    useValue( this.props.name, value === AT_SYMBOL ? '' : value )
+
+  async onKeyDown( event, useValue, position ){
+
+    if ( event.key === 'Backspace' || event.key === 'Delete' ) {
+      if ( position === 2 && this.state.value2 === '' ){
+        event.preventDefault()
+        const value = this.state.value1 + AT_SYMBOL + '' + DOT_SYMBOL + this.state.value3
+        await this.setStateWrapper( { value2: '', value } )
+        await useValue( this.props.name, this.state.value === AT_SYMBOL ? '' : this.state.value )
+        this.EmailAddressBodyInput.focus()
+      } else if ( position === 3 && this.state.value3 === '' ){
+        event.preventDefault()
+        const value = this.state.value1 + AT_SYMBOL + this.state.value2 + DOT_SYMBOL + ''
+        await this.setStateWrapper( { value3: '', value } )
+        await useValue( this.props.name, this.state.value === AT_SYMBOL ? '' : this.state.value )
+        this.EmailAddressDomainNameInput.focus()
+      }
+    }
+
+  }
+
+
+  setStateWrapper( obj ){
+    return new Promise( ( resolve, reject ) => {
+      this.setState( obj, () => resolve( true ) )
+    } )
   }
 
 }
+
+// https://learn.javascript.ru/keyboard-events

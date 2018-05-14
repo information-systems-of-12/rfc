@@ -5,6 +5,7 @@ import SelectDropdown from './SelectDropdown.mjs'
 import Email from './Email.mjs'
 import StringInput from './StringInput.mjs'
 import Submit from './Submit.mjs'
+import RussianPhoneNumber from './RussianPhoneNumber.mjs'
 
 export {
   Handler,
@@ -13,5 +14,6 @@ export {
   SelectDropdown,
   Email,
   StringInput,
-  Submit
+  Submit,
+  RussianPhoneNumber
 }
