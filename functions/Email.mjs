@@ -11,8 +11,6 @@ export default class Email extends Component {
     try {
       super( props )
       this.state = { value: '', value1: '', value2: '', value3: '' }
-      this.onChange1 = this.onChange1.bind( this )
-      this.onChange2 = this.onChange2.bind( this )
 
       this.onChange = this.onChange.bind( this )
       this.onKeyDown = this.onKeyDown.bind( this )
