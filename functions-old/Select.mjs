@@ -11,7 +11,7 @@ export default class Select extends Component {
       this.state = {}
       this.state.usingOptionId = props.usingOptionId !== undefined || props.usingOptionId !== false ? props.usingOptionId : false
       this.state.usingOptionsId = props.usingOptionsId == undefined && Array.isArray( props.usingOptionsId ) === true && props.usingOptionsId.length > 0 ? props.usingOptionsId : []
-      // debugger
+
       this.useOption = this.useOption.bind( this )
       this.checkIfIsUsing = this.checkIfIsUsing.bind( this )
 
@@ -67,8 +67,6 @@ export default class Select extends Component {
 
 
   static getDerivedStateFromProps( nextProps, prevState ){
-    // debugger
-    // return nextProps
 
     if ( nextProps.multi === false ){
       if ( ( nextProps.usingOptionId === undefined || nextProps.usingOptionId === false ) && ( prevState.usingOptionId === undefined || prevState.usingOptionId === false ) ){
@@ -102,35 +100,21 @@ export default class Select extends Component {
 
 
 
-  // shouldComponentUpdate( nextProps, nextState ){
-  //   if ( nextProps.usingOptionId !== undefined && this.state.usingOptionId !== undefined && this.state.usingOptionId === nextProps.usingOptionId ){
-  //     debugger
-  //     return false
-  //   } else {
-  //     debugger
-  //     return true
-  //   }
-  // }
-
-
-
 
   async useOption( id, useValue ){
-    // debugger
+
     if ( this.props.multi === false ){
 
       // --- 05-04-18 modification to unset current option
       if ( this.state.usingOptionId === id ){
         await this.setStateWrapper( { usingOptionId: false } )
         await useValue( this.props.name, false )
-        // debugger
       // --- 05-04-18 modification to unset current option
 
 
       } else {
         await this.setStateWrapper( { usingOptionId: id } )
         await useValue( this.props.name, this.props.options.find( o => o.id === id ) )
-        // debugger
 
       }
       

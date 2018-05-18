@@ -8,48 +8,31 @@ export default class SelectDropdown extends Component {
     try {
       super( props )
       this.state = {}
-      // this.state.usingOptionId = props.usingOptionId !== undefined || props.usingOptionId !== false ? props.usingOptionId : 0
-      // this.state.usingOptionId = props.usingOptionId === undefined ? 0 : props.usingOptionId
-      this.state.usingOptionId = !props.usingOptionId ? 0 : props.usingOptionId
-      // this.state.usingOptionId = 0
+      this.state.usingOptionId = props.usingOptionId !== undefined || props.usingOptionId !== false ? props.usingOptionId : false
       this.state.optionsPanelIsVisible = false
       this.useOption = this.useOption.bind( this )
-      this.onClickUseNextOption = this.onClickUseNextOption.bind( this )
-      this.onClickUsePreviousOption = this.onClickUsePreviousOption.bind( this )
+      this.onClickUseNextOptionButton = this.onClickUseNextOptionButton.bind( this )
+      this.onClickUsePreviousOptionButton = this.onClickUsePreviousOptionButton.bind( this )
       this.toggleOptionsPanel = this.toggleOptionsPanel.bind( this )
-
-      // // debugger
-      // if ( props.onInitialize ){
-      //   // debugger
-      //   props.onInitialize( props.options, this.state.usingOptionId )
-      // }
 
     } catch ( error ) {
       console.error( error )
     }
   }
-
-
   render(){
-
-    // debugger
     return createElement( useValueContext.Consumer, {},
       useValue => createElement( this.props.components.Container, {},
 
-        createElement( this.props.components.StateContainer, {},
           createElement( this.props.components.OptionContainer, {
             value: this.props.options.find( ( o, i ) => i === this.state.usingOptionId ).value,
             toggleOptionsPanel: this.toggleOptionsPanel,
             optionsPanelIsVisible: this.state.optionsPanelIsVisible
           } ),
           
-          createElement( this.props.components.UseOptionPanelContainer, {},
-            createElement( this.props.components.UsePreviousOptionContainer, { usePreviousOption: event => this.onClickUsePreviousOption( event, useValue ) }, ),
-            createElement( this.props.components.UseNextOptionContainer, { useNextOption: event => this.onClickUseNextOption( event, useValue ) }, ),
+          createElement( this.props.components.UseOptionButtonPanelContainer, {},
+            createElement( this.props.components.UsePreviousOptionButtonContainer, { usePreviousOption: event => this.onClickUsePreviousOptionButton( event, useValue ) }, ),
+            createElement( this.props.components.UseNextOptionButtonContainer, { useNextOption: event => this.onClickUseNextOptionButton( event, useValue ) }, ),
           ),
-        ),
-          
-          
 
         this.state.optionsPanelIsVisible === true ? createElement( this.props.components.PanelContainer, {},
           ...this.constructOptions( this.props.options, useValue )
@@ -63,7 +46,7 @@ export default class SelectDropdown extends Component {
     await this.setStateWrapper( { optionsPanelIsVisible: !this.state.optionsPanelIsVisible } )
   }
   
-  async onClickUseNextOption( event, useValue ){
+  async onClickUseNextOptionButton( event, useValue ){
 
     const latestOptionId = this.props.options.length - 1
     if ( this.state.usingOptionId === latestOptionId ){
@@ -74,7 +57,7 @@ export default class SelectDropdown extends Component {
     
   }
 
-  async onClickUsePreviousOption( event, useValue ){
+  async onClickUsePreviousOptionButton( event, useValue ){
     const latestOptionId = this.props.options.length - 1
     if ( this.state.usingOptionId === 0 ){
       return this.useOption( latestOptionId, useValue )
@@ -83,23 +66,10 @@ export default class SelectDropdown extends Component {
     }
   }
 
-   
-  
-  // * 18-05-18
-  
-  // static getDerivedStateFromProps( nextProps, prevState ){
-  //   // return { usingOptionId: nextProps.usingOptionId }
-  //   if ( nextProps.onPropsChange ) {
-  //     // nextProps.onPropsChange( nextProps, prevState )
-  //     nextProps.onPropsChange( nextProps.options[ prevState.usingOptionId ] )
-  //   }
-  //   return nextProps
-  // }
-
-
-
-
-
+    
+  static getDerivedStateFromProps( nextProps, prevState ){
+    return { usingOptionId: nextProps.usingOptionId }
+  }
   // static getDerivedStateFromProps( nextProps, prevState ){
   //   if ( nextProps.multi === false ){
   //     if ( ( nextProps.usingOptionId === undefined || nextProps.usingOptionId === false ) && ( prevState.usingOptionId === undefined || prevState.usingOptionId === false ) ){

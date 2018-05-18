@@ -9,7 +9,6 @@ export default class StringInput extends Component {
     try {
       super( props )
       this.state = {}
-      this.state.value = ''
       this.useString = this.useString.bind( this )
 
     } catch ( error ) {
@@ -51,14 +50,14 @@ export default class StringInput extends Component {
   // }
 
 
-  // static getDerivedStateFromProps( nextProps, prevState ){
-  //   if ( nextProps.usingString !== undefined && prevState.value !== undefined && JSON.stringify( nextProps.usingString ) === prevState.value ){
-  //     return {}
+  static getDerivedStateFromProps( nextProps, prevState ){
+    if ( nextProps.usingString !== undefined && prevState.value !== undefined && JSON.stringify( nextProps.usingString ) === prevState.value ){
+      return {}
 
-  //   } else {
-  //     return { value: typeof nextProps.usingString === 'string' ? nextProps.usingString : String( nextProps.usingString ) }
-  //   }
-  // }
+    } else {
+      return { value: typeof nextProps.usingString === 'string' ? nextProps.usingString : String( nextProps.usingString ) }
+    }
+  }
 
 
   shouldComponentUpdate( nextProps, nextState ){

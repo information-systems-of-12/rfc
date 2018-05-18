@@ -132,18 +132,3 @@ export default class Email extends Component {
 }
 
 // https://learn.javascript.ru/keyboard-events
-
-
-
-const getEmailParameters = emailAddress => {
-  const indexOfAtSymbol = emailAddress.indexOf( '@' )
-  const indexOfDotSymbol = emailAddress.indexOf( '.' )
-  const emailAddressBody = emailAddress.substring( 0, indexOfAtSymbol )
-  const emailAddressDomainName = emailAddress.substring( indexOfAtSymbol + 1, indexOfDotSymbol )
-  const emailAddressDomain = emailAddress.substring( indexOfDotSymbol + 1, emailAddress.length + 1 )
-  return {
-    emailAddressBody,
-    emailAddressDomainName,
-    emailAddressDomain
-  }
-}

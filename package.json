@@ -1,6 +1,6 @@
 {
   "name": "iso12-rfc",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "react form components",
   "main": "./functions/main.mjs",
   "scripts": {

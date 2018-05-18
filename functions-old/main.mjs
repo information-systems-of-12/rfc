@@ -7,8 +7,6 @@ import StringInput from './StringInput.mjs'
 import Submit from './Submit.mjs'
 import RussianPhoneNumber from './RussianPhoneNumber.mjs'
 
-export { default as Checkbox } from './Checkbox.mjs'
-
 export {
   Handler,
   Element,
