@@ -33,12 +33,13 @@ export default class SelectDropdown extends Component {
   render(){
 
     // debugger
+    const usingOption = this.props.options.find( ( o, i ) => i === this.state.usingOptionId )
     return createElement( useValueContext.Consumer, {},
       useValue => createElement( this.props.components.Container, {},
 
         createElement( this.props.components.StateContainer, {},
           createElement( this.props.components.OptionContainer, {
-            value: this.props.options.find( ( o, i ) => i === this.state.usingOptionId ).value,
+            value: usingOption ? usingOption.value : this.props.options.find( ( o, i ) => i === 0 ).value,
             toggleOptionsPanel: this.toggleOptionsPanel,
             optionsPanelIsVisible: this.state.optionsPanelIsVisible
           } ),

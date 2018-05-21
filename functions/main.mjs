@@ -8,6 +8,8 @@ import Submit from './Submit.mjs'
 import RussianPhoneNumber from './RussianPhoneNumber.mjs'
 
 export { default as Checkbox } from './Checkbox.mjs'
+export { default as PageSelect } from './PageSelect.mjs'
+
 
 export {
   Handler,

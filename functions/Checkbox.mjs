@@ -11,6 +11,7 @@ export default class Checkbox extends Component {
       this.state.value = props.value !== undefined ? props.value : false
       
       this.useValue = this.useValue.bind( this )
+      this.toggleValue = this.toggleValue.bind( this )
 
     } catch ( error ) {
       console.error( error )
@@ -19,12 +20,21 @@ export default class Checkbox extends Component {
 
   render(){
     return createElement( useValueContext.Consumer, {},
-      useValue => createElement( this.props.component, { value: this.state.value, useValue: value => this.useValue( value, useValue ) } )
+      useValue => createElement( this.props.component, {
+        value: this.state.value,
+        toggleValue: () => this.toggleValue( useValue ),
+        useValue: value => this.useValue( value, useValue )
+      } )
     )
   }
 
   async useValue( value, useValue ){
     await this.setStateWrapper( { value } )
+    await useValue( this.props.name, this.state.value )
+  }
+
+  async toggleValue( useValue ){
+    await this.setStateWrapper( { value: !this.state.value } )
     await useValue( this.props.name, this.state.value )
   }
 

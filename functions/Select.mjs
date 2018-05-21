@@ -171,7 +171,6 @@ export default class Select extends Component {
     return new Promise( ( resolve, reject ) => {
       this.setState( obj, () => resolve( true ) )
     } )
-    
   }
 
 
