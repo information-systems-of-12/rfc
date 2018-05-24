@@ -2,31 +2,14 @@ import * as React from 'react'
 const createElement = React.default.createElement
 const Component = React.default.Component
 import { useValueContext, setResetActionContext } from './contexts.mjs'
-import { SSL_OP_NETSCAPE_REUSE_CIPHER_CHANGE_BUG } from 'constants';
 
 export default class PageSelect extends Component {
   constructor( props ){
     try {
       super( props )
       this.state = {}
-      this.state.currentPageNumber = props.currentPageNumber ? props.currentPageNumber : getCurrentPageNumber( props.optionsSkip, props.optionsLimit )
-      this.state.pagesCount = Math.ceil( props.optionsTotalCount / props.optionsLimit )
-      // debugger
-      // optionsSkip,
-      // optionsLimit,
-      // optionsTotalCount,
-      // currentPageId
-
-      this.state.usingOptionId = props.usingOptionId !== undefined || props.usingOptionId !== false
-      // ? props.usingOptionId
-      // : false
-
-      // this.state.usingOptionsId = props.usingOptionsId == undefined && Array.isArray( props.usingOptionsId ) === true && props.usingOptionsId.length > 0
-      // ? props.usingOptionsId
-      // : []
 
       this.usePage = this.usePage.bind( this )
-      // this.checkIfIsUsing = this.checkIfIsUsing.bind( this )
 
     } catch ( error ) {
       console.error( error )
@@ -35,9 +18,7 @@ export default class PageSelect extends Component {
 
   render(){
     return createElement( useValueContext.Consumer, {},
-      // useValue => this.props.options && Array.isArray( this.props.options ) === true && this.props.options.length > 0 ? createElement( this.props.components.Container, {},
-      //   ...this.constructOptions( this.props.options, useValue )
-      // ) : null
+
       useValue => this.props.options && Array.isArray( this.props.options ) === true && this.props.options.length > 0 ? 
       createElement( this.props.components.Container, {},
         createElement( this.props.components.PageContainer, { options: this.props.options } ),
@@ -68,9 +49,37 @@ export default class PageSelect extends Component {
     )
   }
 
+  static getDerivedStateFromProps( nextProps, prevState ){
+    const newState = {}
+
+    if ( nextProps.optionsSkip !== undefined ){
+      newState.optionsSkip = nextProps.optionsSkip
+    }
+
+    if ( nextProps.optionsLimit !== undefined ){
+      newState.optionsLimit = nextProps.optionsLimit
+    }
+
+    if ( nextProps.currentPageNumber === undefined && nextProps.optionsSkip !== undefined && nextProps.optionsLimit !== undefined ){
+      newState.currentPageNumber = getCurrentPageNumber( nextProps.optionsSkip, nextProps.optionsLimit )
+    
+    } else if ( nextProps.currentPageNumber !== undefined ){
+      newState.currentPageNumber = nextProps.currentPageNumber
+    }
+
+    if ( nextProps.optionsTotalCount !== undefined && nextProps.optionsLimit !== undefined ){
+      newState.pagesCount = Math.ceil( nextProps.optionsTotalCount / nextProps.optionsLimit )
+    }
+
+    if ( nextProps.usingOptionId !== undefined ){
+      newState.usingOptionId = nextProps.usingOptionId
+    }
+
+    return newState
+
+  }
 
   async usePage( page ){
-    // debugger
     this.props.onUsePage ? this.props.onUsePage( page ) : null
     await this.setStateWrapper( { currentPageNumber: page } )
   }
@@ -86,7 +95,6 @@ export default class PageSelect extends Component {
 
 
 const getCurrentPageNumber = ( optionsSkip, optionsLimit, optionsCount ) => {
-
   const pageNumber = optionsSkip / optionsLimit
   return pageNumber + 1
 }

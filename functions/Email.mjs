@@ -6,17 +6,12 @@ import { useValueContext } from './contexts.mjs'
 const AT_SYMBOL = '@'
 const DOT_SYMBOL = '.'
 
+
 export default class Email extends Component {
   constructor( props ){
     try {
       super( props )
-
-      this.state = { 
-        value1: props.defaultEmailAddressBodyValue || '',
-        value2: props.defaultEmailAddressDomainNameValue || '',
-        value3: props.defaultEmailAddressDomainValue || ''
-      }
-      this.state.value = `${ this.state.value1 }@${ this.state.value2 }.${ this.state.value3 }`
+      this.state = {}
 
       this.onChange = this.onChange.bind( this )
       this.onKeyDown = this.onKeyDown.bind( this )
@@ -28,6 +23,16 @@ export default class Email extends Component {
     } catch ( error ) {
       console.error( error )
     }
+  }
+
+
+  static getDerivedStateFromProps( nextProps, prevState ){
+    const newState = {}
+    newState.value1 = nextProps.defaultEmailAddressBodyValue !== undefined ? nextProps.defaultEmailAddressBodyValue : prevState.defaultEmailAddressBodyValue
+    newState.value2 = nextProps.defaultEmailAddressDomainNameValue !== undefined ? nextProps.defaultEmailAddressDomainNameValue : prevState.defaultEmailAddressDomainNameValue
+    newState.value3 = nextProps.defaultEmailAddressDomainValue !== undefined ? nextProps.defaultEmailAddressDomainValue : prevState.defaultEmailAddressDomainValue
+    newState.value = `${ newState.value1 }@${ newState.value2 }.${ newState.value3 }`
+    return newState
   }
 
   render(){
@@ -132,18 +137,3 @@ export default class Email extends Component {
 }
 
 // https://learn.javascript.ru/keyboard-events
-
-
-
-const getEmailParameters = emailAddress => {
-  const indexOfAtSymbol = emailAddress.indexOf( '@' )
-  const indexOfDotSymbol = emailAddress.indexOf( '.' )
-  const emailAddressBody = emailAddress.substring( 0, indexOfAtSymbol )
-  const emailAddressDomainName = emailAddress.substring( indexOfAtSymbol + 1, indexOfDotSymbol )
-  const emailAddressDomain = emailAddress.substring( indexOfDotSymbol + 1, emailAddress.length + 1 )
-  return {
-    emailAddressBody,
-    emailAddressDomainName,
-    emailAddressDomain
-  }
-}

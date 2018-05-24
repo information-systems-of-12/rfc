@@ -9,7 +9,7 @@ import RussianPhoneNumber from './RussianPhoneNumber.mjs'
 
 export { default as Checkbox } from './Checkbox.mjs'
 export { default as PageSelect } from './PageSelect.mjs'
-
+export { default as getEmailParameters } from './getEmailParameters.mjs'
 
 export {
   Handler,
