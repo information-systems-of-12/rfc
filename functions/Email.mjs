@@ -28,10 +28,11 @@ export default class Email extends Component {
 
   static getDerivedStateFromProps( nextProps, prevState ){
     const newState = {}
-    newState.value1 = nextProps.defaultEmailAddressBodyValue !== undefined ? nextProps.defaultEmailAddressBodyValue : prevState.defaultEmailAddressBodyValue
-    newState.value2 = nextProps.defaultEmailAddressDomainNameValue !== undefined ? nextProps.defaultEmailAddressDomainNameValue : prevState.defaultEmailAddressDomainNameValue
-    newState.value3 = nextProps.defaultEmailAddressDomainValue !== undefined ? nextProps.defaultEmailAddressDomainValue : prevState.defaultEmailAddressDomainValue
-    newState.value = `${ newState.value1 }@${ newState.value2 }.${ newState.value3 }`
+    newState.value1 = nextProps.defaultEmailAddressBodyValue !== undefined && prevState.value1 === undefined ? nextProps.defaultEmailAddressBodyValue : prevState.value1
+    newState.value2 = nextProps.defaultEmailAddressDomainNameValue !== undefined && prevState.value2 === undefined ? nextProps.defaultEmailAddressDomainNameValue : prevState.value2
+    newState.value3 = nextProps.defaultEmailAddressDomainValue !== undefined && prevState.value3 === undefined ? nextProps.defaultEmailAddressDomainValue : prevState.value3
+    newState.value = prevState.value === undefined ? `${ newState.value1 }@${ newState.value2 }.${ newState.value3 }` : prevState.value
+    
     return newState
   }
 
